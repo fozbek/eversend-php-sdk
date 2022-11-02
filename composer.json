@@ -1,5 +1,5 @@
 {
-    "name": "eversend/eversend-open-api",
+    "name": "eversend/eversend",
     "description": "The package for implementing the Eversend Open API.",
     "type": "library",
     "autoload": {
@@ -20,7 +20,8 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0"
+        "symfony/cache": "^6.1",
+        "guzzlehttp/guzzle": "^7.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
