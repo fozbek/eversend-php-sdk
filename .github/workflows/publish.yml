@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Publish distribution 📦 to Packagist
-        uses: mnavarrocarter/packagist-update@release/v1
+        uses: mnavarrocarter/packagist-update@v1.0.0
         with:
           username: "eversend"
           api_token: ${{ secrets.PACKAGIST_TOKEN }}
