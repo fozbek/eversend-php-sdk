@@ -1,8 +1,8 @@
-# Eversend Nodejs SDK
+# Eversend PHP SDK
 
-[![PyPI version](https://badge.fury.io/py/eversend.svg)](https://badge.fury.io/py/eversend) [![Build Status][travis-image]][travis-url] ![Dependencies](https://img.shields.io/librariesio/release/pypi/eversend)
+![Packagist Version](https://img.shields.io/packagist/v/eversend/eversend-php-sdk) ![Packagist License](https://img.shields.io/packagist/l/eversend/eversend-php-sdk) ![Packagist Downloads](https://img.shields.io/packagist/dm/eversend/eversend-php-sdk)
 
-Nodejs SDK for Eversend payments API
+PHP SDK for Eversend payments API
 
 ## Installation
 
@@ -24,8 +24,3 @@ For additional documentation, check our [developer docs](https://developer.evers
 ## License
 
 MIT © [Eversend]()
-
-[pypi-image]: https://badge.fury.io/py/eversend.svg
-[npm-url]: https://badge.fury.io/js/@eversend%2Fnode-sdk
-[travis-image]: https://app.travis-ci.com/eversend/eversend-python-sdk.svg?token=WxxstsCyyxGyzLpHFkUi&branch=master
-[travis-url]: https://app.travis-ci.com/eversend/eversend-python-sdk
