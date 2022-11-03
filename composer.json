@@ -1,24 +1,30 @@
 {
     "name": "eversend/eversend",
-    "description": "The package for implementing the Eversend Open API.",
+    "description": "Eversend SDK for merchants",
     "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Eversend\\EversendOpenApi\\": "src/"
-        },
-        "files": [
-            "src/index.php"
-        ],
-        "classmap": [
-            "src/"
-        ]
-    },
+    "keywords": [
+        "eversend",
+        "payments",
+        "api",
+        "sdk"
+    ],
+    "homepage": "https://github.com/eversend/eversend-php-sdk",
     "authors": [
         {
-            "name": "cetric Lihalakha",
+            "name": "Cetric Lihalakha",
             "email": "cetric32@gmail.com"
+        },
+        {
+            "name": "Frank Odongkara",
+            "email": "fodongkara@gmail.com"
         }
     ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Eversend\\": "src/"
+        }
+    },
     "require": {
         "symfony/cache": "^6.1",
         "guzzlehttp/guzzle": "^7.5"
