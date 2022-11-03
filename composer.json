@@ -1,5 +1,5 @@
 {
-    "name": "eversend/eversend",
+    "name": "eversend/eversend-php-sdk",
     "description": "Eversend SDK for merchants",
     "type": "library",
     "keywords": [

@@ -1,0 +1,15 @@
+name: Publish to Packagist
+on:
+  release:
+    types: [created]
+jobs:
+  build-n-publish:
+    name: Build and publish Composer distributions 📦 to Packagist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish distribution 📦 to Packagist
+        uses: mnavarrocarter/packagist-update@v1.0
+        with:
+          username: "eversend"
+          api_token: ${{ secrets.PACKAGIST_TOKEN }}

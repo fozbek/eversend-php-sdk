@@ -454,6 +454,7 @@ gradle-app.setting
 
 ##### Composer
 composer.phar
+composer.lock
 /vendor/
 
 ##### PHP CodeSniffer
