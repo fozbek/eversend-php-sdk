@@ -1,86 +1,68 @@
 <?
-namespace v1;
+namespace Eversend\Services;
+
+use Eversend\Common\ApiClient;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-class Payouts
+class Payouts extends ApiClient
 {
-    public static function createQuotation(string $token, string $sourceWallet, float $amount, string $type, string $destinationCountry, string $destinationCurrency, string $amountType)
+    public static function getQuotation(
+        string $sourceWallet,
+        float $amount,
+        string $type,
+        string $destinationCountry,
+        string $destinationCurrency,
+        string $amountType)
     {
-        $client = getV1Client();
-
-        $response = $client->post('payouts/quotation', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-            'json' => [
-                'sourceWallet' => $sourceWallet,
-                'type' => $type,
-                'amount' => $amount,
-                'destinationCountry' => $destinationCountry,
-                'destinationCurrency' => $destinationCurrency,
-                'amountType' => $amountType,
-            ],
-        ]);
-
-        return handleResponse($response);
+        $data = [
+            'type' => $type,
+            'amount' => $amount,
+            'sourceWallet' => $sourceWallet,
+            'destinationCountry' => $destinationCountry,
+            'destinationCurrency' => $destinationCurrency,
+            'amountType' => $amountType,
+        ];
+        return $this->_create('payouts/quotation', $data);
     }
 
-    public static function createTransaction(
-        string $token, string $quotationToken, $beneficiaryId,
-        $firstName, $lastName, $phoneNumber, $bankName, $bankAccountName, $bankCode,
-        $bankAccountNumber, $country, $transactionRef
+    public static function initiate(
+        string $quotationToken,
+        string $beneficiaryId,
+        string $firstName,
+        string $lastName,
+        string $phoneNumber,
+        string $bankName,
+        string $bankAccountName,
+        string $bankCode,
+        string $bankAccountNumber,
+        string $country,
+        string $transactionRef
     ) {
-        $client = getV1Client();
-
-        $response = $client->post('payouts', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-            'json' => [
-                'token' => $quotationToken,
-                'beneficiaryId' => $beneficiaryId,
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'phoneNumber' => $phoneNumber,
-                'bankName' => $bankName,
-                'bankAccountName' => $bankAccountName,
-                'bankCode' => $bankCode,
-                'bankAccountNumber' => $bankAccountNumber,
-                'country' => $country,
-                'transactionRef' => $transactionRef,
-            ],
-        ]);
-
-        return handleResponse($response);
+        $data = [
+            'token' => $quotationToken,
+        ];
+        if (!empty($beneficiaryId)) $data['beneficiaryId'] = $beneficiaryId;
+        if (!empty($firstName)) $data['firstName'] = $firstName;
+        if (!empty($lastName)) $data['lastName'] = $lastName;
+        if (!empty($phoneNumber)) $data['phoneNumber'] = $phoneNumber;
+        if (!empty($country)) $data['country'] = $country;
+        if (!empty($bankName)) $data['bankName'] = $bankName;
+        if (!empty($bankAccountName)) $data['bankAccountName'] = $bankAccountName;
+        if (!empty($bankAccountNumber)) $data['bankAccountNumber'] = $bankAccountNumber;
+        if (!empty($bankCode)) $data['bankCode'] = $bankCode;
+        if (!empty($transactionRef)) $data['transactionRef'] = $transactionRef;
+        return $this->_create('payouts', $data);
     }
 
-    public static function getDeliveryCountries(string $token)
+    public static function countries()
     {
-        $client = getV1Client();
-
-        $response = $client->get('payouts/countries', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
-
-        return handleResponse($response);
-
+        return $this->_read('payouts/countries');
     }
 
-    public static function getDeliveryBanks(string $token, string $countryCode)
+    public static function banks(string $country)
     {
-        $client = getV1Client();
-
-        $response = $client->get('payouts/banks/' . $countryCode, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-            ],
-        ]);
-
-        return handleResponse($response);
-
+        return $this->_read('payouts/banks/' . $country);
     }
 
 }

@@ -15,12 +15,12 @@ class Transactions extends ApiClient
             'page'  => $page,
         ];
         if (!empty($search)) $params['search']      = $search;
-        if (!empty($search)) $params['range']       = $range;
-        if (!empty($search)) $params['from']        = $from;
-        if (!empty($search)) $params['to']          = $to;
-        if (!empty($search)) $params['type']        = $type;
-        if (!empty($search)) $params['currency']    = $currency;
-        if (!empty($search)) $params['status']      = $status;
+        if (!empty($range)) $params['range']       = $range;
+        if (!empty($from)) $params['from']        = $from;
+        if (!empty($to)) $params['to']          = $to;
+        if (!empty($type)) $params['type']        = $type;
+        if (!empty($currency)) $params['currency']    = $currency;
+        if (!empty($status)) $params['status']      = $status;
         return $this->_read('transactions', $params);
     }
 

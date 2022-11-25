@@ -30,7 +30,7 @@ class ApiClient
 
     private function handleResponse(Response $response)
     {
-        return json_decode($response->getBody());
+        return json_decode($response->getBody())['data'];
     }
 
     public static function getToken()
@@ -45,7 +45,7 @@ class ApiClient
                 'clientSecret' => $this->clientSecret,
             ]]);
         
-            return $this->handleResponse($response)['data']['token'];
+            return $this->handleResponse($response)['token'];
         });
     }
 
