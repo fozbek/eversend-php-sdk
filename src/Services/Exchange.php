@@ -1,11 +1,12 @@
-<?
+<?php
+
 namespace Eversend\Services;
 
 use Eversend\Common\ApiClient;
 
 class Exchange extends ApiClient
 {
-    public static function createQuotation(string $from, string $to, float $amount)
+    public function createQuotation(string $from, string $to, float $amount)
     {
         $data = [
             'from' => $from,
@@ -15,7 +16,7 @@ class Exchange extends ApiClient
         return $this->_create('exchanges/quotation', $data);
     }
 
-    public static function createExchange(string $token, string $transactionRef = null)
+    public function createExchange(string $token, string $transactionRef = null)
     {
         $data = [
             'token' => $token,

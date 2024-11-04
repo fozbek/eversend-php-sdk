@@ -1,11 +1,12 @@
-<?
+<?php
+
 namespace Eversend\Services;
 
 use Eversend\Common\ApiClient;
 
 class Crypto extends ApiClient
 {
-    public static function listTransactions(int $limit = 10, int $page = 1)
+    public function listTransactions(int $limit = 10, int $page = 1)
     {
         $params = [
             'limit' => $limit,
@@ -14,7 +15,7 @@ class Crypto extends ApiClient
         return $this->_read('crypto/transactions', $params);
     }
 
-    public static function listAddresses(int $limit = 10, int $page = 1)
+    public function listAddresses(int $limit = 10, int $page = 1)
     {
         $params = [
             'limit' => $limit,
@@ -23,12 +24,12 @@ class Crypto extends ApiClient
         return $this->_read('crypto/addresses', $params);
     }
 
-    public static function getAssetChains(int $coin)
+    public function getAssetChains(int $coin)
     {
         return $this->_read('crypto/assets/' . $coin);
     }
 
-    public static function createAddress(
+    public function createAddress(
         string $assetId, string $ownerName, $destinationAddressDescription, $purpose)
     {
         $data = [

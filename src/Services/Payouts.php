@@ -1,4 +1,5 @@
-<?
+<?php
+
 namespace Eversend\Services;
 
 use Eversend\Common\ApiClient;
@@ -7,7 +8,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 class Payouts extends ApiClient
 {
-    public static function getQuotation(
+    public function getQuotation(
         string $sourceWallet,
         float $amount,
         string $type,
@@ -26,7 +27,7 @@ class Payouts extends ApiClient
         return $this->_create('payouts/quotation', $data);
     }
 
-    public static function initiate(
+    public function initiate(
         string $quotationToken,
         string $beneficiaryId,
         string $firstName,
@@ -55,12 +56,12 @@ class Payouts extends ApiClient
         return $this->_create('payouts', $data);
     }
 
-    public static function countries()
+    public function countries()
     {
         return $this->_read('payouts/countries');
     }
 
-    public static function banks(string $country)
+    public function banks(string $country)
     {
         return $this->_read('payouts/banks/' . $country);
     }

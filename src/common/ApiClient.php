@@ -1,12 +1,11 @@
-<?
+<?php
 
-namespace Eversend\Common;
+namespace Eversend\common;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Common\Constants;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class ApiClient
 {
@@ -17,10 +16,10 @@ class ApiClient
 
     public function __construct(string $clientId, string $clientSecret, int $version)
     {
-        $this->clientId     = $clientId;
+        $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->version      = $version;
-        $this->cache        = new FilesystemAdapter();
+        $this->version = $version;
+        $this->cache = new FilesystemAdapter();
     }
 
     private function getClient()
@@ -33,26 +32,26 @@ class ApiClient
         return json_decode($response->getBody())['data'];
     }
 
-    public static function getToken()
+    public function getToken()
     {
-        $this->cache->get('TOKEN', function (ItemInterface $item) {
+        return $this->cache->get('TOKEN', function (ItemInterface $item) {
             $item->expiresAfter(3600);
-        
+
             $client = $this->getClient();
 
             $response = $client->get('auth/token', ['headers' => [
                 'clientId' => $this->clientId,
                 'clientSecret' => $this->clientSecret,
             ]]);
-        
+
             return $this->handleResponse($response)['token'];
         });
     }
 
-    private function _read(string $url, array $params = null)
+    protected function _read(string $url, array $params = null)
     {
         $client = $this->getClient();
-        $token  = getToken();
+        $token = $this->getToken();
         $config = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -62,11 +61,11 @@ class ApiClient
         $response = $client->get($url, $config);
         return $this->handleResponse($response);
     }
-    
-    private function _create(string $url, array $data)
+
+    protected function _create(string $url, array $data)
     {
         $client = $this->getClient();
-        $token  = getToken();
+        $token = $this->getToken();
         $response = $client->post($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -76,10 +75,10 @@ class ApiClient
         return $this->handleResponse($response);
     }
 
-    private function _update(string $url, array $data)
+    protected function _update(string $url, array $data)
     {
         $client = $this->getClient();
-        $token  = getToken();
+        $token = $this->getToken();
         $response = $client->patch($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -89,10 +88,10 @@ class ApiClient
         return $this->handleResponse($response);
     }
 
-    private function _delete(string $url)
+    protected function _delete(string $url)
     {
         $client = $this->getClient();
-        $token  = getToken();
+        $token = $this->getToken();
         $response = $client->delete($url, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
