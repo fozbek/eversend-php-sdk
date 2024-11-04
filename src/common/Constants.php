@@ -1,5 +1,6 @@
-<?
-namespace Eversend\Common;
+<?php
+
+namespace Eversend\common;
 
 class Constants
 {

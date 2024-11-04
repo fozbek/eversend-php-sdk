@@ -14,7 +14,7 @@ class ApiClient
     private $clientSecret;
     private $version;
 
-    public function __construct(string $clientId, string $clientSecret, int $version)
+    public function __construct(string $clientId, string $clientSecret, int $version = 1)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
@@ -24,12 +24,12 @@ class ApiClient
 
     private function getClient()
     {
-        return new Client(['base_uri' => Constants::BASE_URL . $this->version]);
+        return new Client(['base_uri' => Constants::BASE_URL . $this->version . '/']);
     }
 
     private function handleResponse(Response $response)
     {
-        return json_decode($response->getBody())['data'];
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getToken()
@@ -39,10 +39,12 @@ class ApiClient
 
             $client = $this->getClient();
 
-            $response = $client->get('auth/token', ['headers' => [
-                'clientId' => $this->clientId,
-                'clientSecret' => $this->clientSecret,
-            ]]);
+            $response = $client->get('auth/token', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'clientId' => $this->clientId,
+                    'clientSecret' => $this->clientSecret,
+                ]]);
 
             return $this->handleResponse($response)['token'];
         });
@@ -54,11 +56,15 @@ class ApiClient
         $token = $this->getToken();
         $config = [
             'headers' => [
+                'accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
             ]
         ];
-        if (!empty($params)) $config['query'] = $params;
+        if (!empty($params)) {
+            $config['query'] = $params;
+        }
         $response = $client->get($url, $config);
+
         return $this->handleResponse($response);
     }
 
@@ -68,9 +74,10 @@ class ApiClient
         $token = $this->getToken();
         $response = $client->post($url, [
             'headers' => [
+                'accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
             ],
-            'json' => $data
+            'json' => $data,
         ]);
         return $this->handleResponse($response);
     }
@@ -81,10 +88,12 @@ class ApiClient
         $token = $this->getToken();
         $response = $client->patch($url, [
             'headers' => [
+                'accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
             ],
-            'json' => $data
+            'json' => $data,
         ]);
+
         return $this->handleResponse($response);
     }
 
@@ -94,9 +103,11 @@ class ApiClient
         $token = $this->getToken();
         $response = $client->delete($url, [
             'headers' => [
+                'accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
             ]
         ]);
+
         return $this->handleResponse($response);
     }
 }
